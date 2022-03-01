@@ -1,0 +1,16 @@
+.header {
+  @apply fixed left-0 top-0 w-full z-50;
+}
+.container {
+  @apply flex justify-between items-center px-12 py-2 bg-white;
+}
+.left,
+.right {
+  @apply flex items-center;
+}
+.input_container {
+  @apply h-full;
+}
+.input {
+  @apply h-full;
+}

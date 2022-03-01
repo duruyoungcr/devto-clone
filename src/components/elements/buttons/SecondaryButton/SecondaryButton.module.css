@@ -1,0 +1,9 @@
+.btn {
+  @apply rounded-lg px-4 py-2 transition-all duration-500 
+  ease-in-out hover:bg-purple-light hover:text-purple-dark hover:underline min-w-max w-full;
+}
+
+.btn__variant {
+  @apply rounded-lg px-4 py-2 transition-all duration-500 
+  ease-in-out hover:bg-purple-light hover:text-purple-dark min-w-max w-full;
+}

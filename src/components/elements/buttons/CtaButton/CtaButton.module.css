@@ -1,0 +1,8 @@
+.btn {
+  @apply border rounded-lg border-purple text-purple px-[15px] py-[7px] transition-all duration-500 
+  ease-in-out hover:bg-purple hover:text-white hover:underline font-medium w-full min-w-max;
+}
+.btn__variant {
+  @apply border rounded-lg bg-purple text-white px-[15px] py-[7px] transition-all duration-500 
+  ease-in-out hover:bg-opacity-95 font-medium min-w-max;
+}

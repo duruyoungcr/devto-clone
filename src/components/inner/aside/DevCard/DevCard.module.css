@@ -1,0 +1,9 @@
+.card {
+  @apply p-4 rounded-lg w-[240px] bg-white-dark shadow;
+}
+.colored {
+  @apply text-purple hover:underline transition-all duration-300 ease-in;
+}
+.actions {
+  @apply text-center;
+}

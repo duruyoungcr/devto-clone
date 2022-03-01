@@ -1,0 +1,3 @@
+.container {
+  @apply px-12 py-4 bg-gray flex justify-between;
+}

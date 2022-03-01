@@ -1,0 +1,12 @@
+.container {
+  @apply flex-1 mx-4 mt-2;
+}
+.posts {
+  @apply my-4;
+}
+.links {
+  @apply text-[18px] my-1;
+}
+.link {
+  @apply py-2.5 px-3 transition-all duration-300 ease-in-out hover:bg-white-dark hover:text-purple rounded-lg;
+}
