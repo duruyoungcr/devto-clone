@@ -1,5 +1,5 @@
 .container {
-  @apply flex-1 mx-4 mt-2;
+  @apply flex-1 mx-4 mt-2 min-w-[530px] w-full;
 }
 .posts {
   @apply my-4;

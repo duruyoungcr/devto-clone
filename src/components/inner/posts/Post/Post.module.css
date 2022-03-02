@@ -14,7 +14,7 @@
   @apply font-medium text-sm text-black-lightest;
 }
 .pinned {
-  @apply text-purple flex items-center;
+  @apply text-purple flex items-end;
 }
 .details {
   @apply pl-10;

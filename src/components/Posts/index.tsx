@@ -51,7 +51,8 @@ interface PostPropTypes {
     tags: string
     user: {
         name: string,
-        profile_image: string
+        profile_image: string,
+        username: string
     }
 }
 const Posts = () => {
@@ -59,6 +60,7 @@ const Posts = () => {
     const [topPosts, setTopPosts] = useState<Array<PostPropTypes>>([])
     const [posts, setPosts] = useState<Array<PostPropTypes>>([])
     const [post, setPost] = useState<PostPropTypes>()
+    const [pinnedPost, setPinnedPost] = useState<PostPropTypes>()
     useEffect(() => {
         fetchPosts()
         return () => {
@@ -70,7 +72,11 @@ const Posts = () => {
         const result = await fetch(postsURL).then((res) => res.json())
         setTopPosts(result.slice(0, 3))
         setPosts(result.slice(3))
-        setPost(result[14])
+        setPost(result[4])
+        setPinnedPost(result[getRandomIndex(result.length)])
+    }
+    const getRandomIndex = (length: number): number => {
+        return Math.floor(Math.random() * length)
     }
     return (
         <section className={styles.container}>
@@ -83,6 +89,21 @@ const Posts = () => {
                     ))}
                 </div>
                 <div className={styles.posts}>
+                    {pinnedPost &&
+                        <Post
+                            title={pinnedPost?.title}
+                            link={pinnedPost?.url}
+                            duration={pinnedPost?.reading_time_minutes}
+                            comments={pinnedPost?.comments_count}
+                            reactions={pinnedPost?.public_reactions_count}
+                            tags={pinnedPost?.tag_list}
+                            date={pinnedPost?.readable_publish_date}
+                            author={pinnedPost?.user?.name}
+                            avatar={pinnedPost?.user?.profile_image}
+                            username={pinnedPost?.user?.username}
+                            pinned
+                        />
+                    }
                     {post &&
                         <CoverPost
                             title={post?.title}
@@ -95,6 +116,7 @@ const Posts = () => {
                             author={post?.user?.name}
                             avatar={post?.user?.profile_image}
                             coverImage={post?.cover_image}
+                            username={post?.user.username}
                         />
                     }
                     {topPosts && topPosts.map(post =>
@@ -109,6 +131,7 @@ const Posts = () => {
                                 date={post.readable_publish_date}
                                 author={post.user?.name}
                                 avatar={post.user?.profile_image}
+                                username={post?.user.username}
                             />
                         </div>
                     )}
@@ -125,6 +148,7 @@ const Posts = () => {
                                 date={post.readable_publish_date}
                                 author={post.user?.name}
                                 avatar={post.user?.profile_image}
+                                username={post?.user.username}
                             />
                         </div>
                     )) : 'No Posts Available'}

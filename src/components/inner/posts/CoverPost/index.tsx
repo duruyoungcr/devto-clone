@@ -19,6 +19,7 @@ interface PostPropTypes {
     pinned?: boolean,
     tutorial?: boolean,
     coverImage: string,
+    username: string
 }
 
 const CoverPost = ({
@@ -33,7 +34,10 @@ const CoverPost = ({
     avatar,
     pinned,
     coverImage,
-    tutorial }: PostPropTypes) => {
+    tutorial,
+    username
+}: PostPropTypes) => {
+    const baseURL = 'https://dev.to/'
     return (
         <div className='rounded-lg overflow-hidden border border-gray-light mb-2'>
             <a href={link}>
@@ -42,7 +46,9 @@ const CoverPost = ({
             <article className={styles.card}>
                 <div className={styles.top}>
                     <div className={styles.user}>
-                        <Avatar size='sm' name={author} src={avatar} />
+                        <a href={baseURL + username}>
+                            <Avatar size='sm' name={author} src={avatar} />
+                        </a>
                         <div className='flex flex-col ml-2'>
                             <h4 className={styles.name}>{author}</h4>
                             <p className='text-black-light text-xs'>{date}</p>
@@ -91,8 +97,8 @@ const CoverPost = ({
                         </div>
                     </div>
                 </div>
-            </article>
-        </div>
+            </article >
+        </div >
     )
 }
 
