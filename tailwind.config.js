@@ -30,6 +30,10 @@ module.exports = {
         dark: '#D6D6D7',
         DEFAULT: '#F5F5F5',
         light: '#E9E9E9'
+      },
+      yellow: {
+        DEFAULT: '#FCD34D',
+        dark: '#78350F'
       }
     },
     fontFamily: {
