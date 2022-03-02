@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Mono&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -19,8 +20,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   @apply bg-gray text-black pt-14;
 }
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+h6 {
+  font-family: "DM Mono", monospace;
 }
