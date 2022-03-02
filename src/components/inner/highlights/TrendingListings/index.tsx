@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import List from '../List'
-import TagList from '../TagList'
 
 interface ListingsPropTypes {
     type_of: string,

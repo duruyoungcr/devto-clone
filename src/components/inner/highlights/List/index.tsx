@@ -1,4 +1,3 @@
-import { Badge } from '@chakra-ui/react'
 
 interface ListPropTypes {
     title: string;
