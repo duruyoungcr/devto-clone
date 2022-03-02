@@ -1,0 +1,3 @@
+.card {
+  @apply rounded-lg bg-white-dark border border-gray-light mb-4;
+}
