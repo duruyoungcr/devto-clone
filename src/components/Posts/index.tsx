@@ -1,8 +1,5 @@
 import { useEffect, useState } from 'react'
-import {
-    BrowserRouter as Router,
-    Link
-} from "react-router-dom";
+import { BrowserRouter as Router, Link } from "react-router-dom";
 import CoverPost from '../inner/posts/CoverPost';
 import DevCard from '../inner/posts/DevCard';
 import Post from '../inner/posts/Post';
@@ -57,6 +54,7 @@ interface PostPropTypes {
 }
 const Posts = () => {
     const [tab, setTab] = useState<string>('Relevant')
+    const [fetching, setFetching] = useState(true)
     const [topPosts, setTopPosts] = useState<Array<PostPropTypes>>([])
     const [posts, setPosts] = useState<Array<PostPropTypes>>([])
     const [post, setPost] = useState<PostPropTypes>()
@@ -70,10 +68,12 @@ const Posts = () => {
     const postsURL = 'https://dev.to/api/articles?per_page=25'
     const fetchPosts = async () => {
         const result = await fetch(postsURL).then((res) => res.json())
+        const withCoverImg = await result.filter((post: PostPropTypes) => post.cover_image !== null)
         setTopPosts(result.slice(0, 3))
         setPosts(result.slice(3))
-        setPost(result[4])
+        setPost(withCoverImg[getRandomIndex(withCoverImg.length)])
         setPinnedPost(result[getRandomIndex(result.length)])
+        setFetching(false)
     }
     const getRandomIndex = (length: number): number => {
         return Math.floor(Math.random() * length)
@@ -81,78 +81,86 @@ const Posts = () => {
     return (
         <section className={styles.container}>
             <Router>
-                <div className={styles.links}>
-                    {links.map((link, index) => (
-                        <Link to={link.path} className={`${styles.link} ${tab === link.title ? 'font-bold' : 'text-black-light'}`} key={index} onClick={() => setTab(link.title)}>
-                            {link.title}
-                        </Link>
-                    ))}
-                </div>
-                <div className={styles.posts}>
-                    {pinnedPost &&
-                        <Post
-                            title={pinnedPost?.title}
-                            link={pinnedPost?.url}
-                            duration={pinnedPost?.reading_time_minutes}
-                            comments={pinnedPost?.comments_count}
-                            reactions={pinnedPost?.public_reactions_count}
-                            tags={pinnedPost?.tag_list}
-                            date={pinnedPost?.readable_publish_date}
-                            author={pinnedPost?.user?.name}
-                            avatar={pinnedPost?.user?.profile_image}
-                            username={pinnedPost?.user?.username}
-                            pinned
-                        />
-                    }
-                    {post &&
-                        <CoverPost
-                            title={post?.title}
-                            link={post?.url}
-                            duration={post?.reading_time_minutes}
-                            comments={post?.comments_count}
-                            reactions={post?.public_reactions_count}
-                            tags={post?.tag_list}
-                            date={post?.readable_publish_date}
-                            author={post?.user?.name}
-                            avatar={post?.user?.profile_image}
-                            coverImage={post?.cover_image}
-                            username={post?.user.username}
-                        />
-                    }
-                    {topPosts && topPosts.map(post =>
-                        <div key={post.id}>
-                            <Post
-                                title={post.title}
-                                link={post.url}
-                                duration={post.reading_time_minutes}
-                                comments={post.comments_count}
-                                reactions={post.public_reactions_count}
-                                tags={post.tag_list}
-                                date={post.readable_publish_date}
-                                author={post.user?.name}
-                                avatar={post.user?.profile_image}
-                                username={post?.user.username}
-                            />
+                {fetching ?
+                    <>
+                        <h1 className='text-center animate-pulse'>Fetching posts...</h1>
+                    </>
+                    :
+                    <>
+                        <div className={styles.links}>
+                            {links.map((link, index) => (
+                                <Link to={link.path} className={`${styles.link} ${tab === link.title ? 'font-bold' : 'text-black-light'}`} key={index} onClick={() => setTab(link.title)}>
+                                    {link.title}
+                                </Link>
+                            ))}
                         </div>
-                    )}
-                    <DevCard />
-                    {posts ? posts.map((post) => (
-                        <div key={post.id}>
-                            <Post
-                                title={post.title}
-                                link={post.url}
-                                duration={post.reading_time_minutes}
-                                comments={post.comments_count}
-                                reactions={post.public_reactions_count}
-                                tags={post.tag_list}
-                                date={post.readable_publish_date}
-                                author={post.user?.name}
-                                avatar={post.user?.profile_image}
-                                username={post?.user.username}
-                            />
+                        <div className={styles.posts}>
+                            {pinnedPost &&
+                                <Post
+                                    title={pinnedPost?.title}
+                                    link={pinnedPost?.url}
+                                    duration={pinnedPost?.reading_time_minutes}
+                                    comments={pinnedPost?.comments_count}
+                                    reactions={pinnedPost?.public_reactions_count}
+                                    tags={pinnedPost?.tag_list}
+                                    date={pinnedPost?.readable_publish_date}
+                                    author={pinnedPost?.user?.name}
+                                    avatar={pinnedPost?.user?.profile_image}
+                                    username={pinnedPost?.user?.username}
+                                    pinned
+                                />
+                            }
+                            {post &&
+                                <CoverPost
+                                    title={post?.title}
+                                    link={post?.url}
+                                    duration={post?.reading_time_minutes}
+                                    comments={post?.comments_count}
+                                    reactions={post?.public_reactions_count}
+                                    tags={post?.tag_list}
+                                    date={post?.readable_publish_date}
+                                    author={post?.user?.name}
+                                    avatar={post?.user?.profile_image}
+                                    coverImage={post?.cover_image}
+                                    username={post?.user.username}
+                                />
+                            }
+                            {topPosts && topPosts.map(post =>
+                                <div key={post.id}>
+                                    <Post
+                                        title={post.title}
+                                        link={post.url}
+                                        duration={post.reading_time_minutes}
+                                        comments={post.comments_count}
+                                        reactions={post.public_reactions_count}
+                                        tags={post.tag_list}
+                                        date={post.readable_publish_date}
+                                        author={post.user?.name}
+                                        avatar={post.user?.profile_image}
+                                        username={post?.user.username}
+                                    />
+                                </div>
+                            )}
+                            <DevCard />
+                            {posts ? posts.map((post) => (
+                                <div key={post.id}>
+                                    <Post
+                                        title={post.title}
+                                        link={post.url}
+                                        duration={post.reading_time_minutes}
+                                        comments={post.comments_count}
+                                        reactions={post.public_reactions_count}
+                                        tags={post.tag_list}
+                                        date={post.readable_publish_date}
+                                        author={post.user?.name}
+                                        avatar={post.user?.profile_image}
+                                        username={post?.user.username}
+                                    />
+                                </div>
+                            )) : 'No Posts Available'}
                         </div>
-                    )) : 'No Posts Available'}
-                </div>
+                    </>
+                }
             </Router>
         </section>
     )
